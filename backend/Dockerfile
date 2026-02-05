@@ -1,26 +1,19 @@
 FROM node:20-alpine
 
-# Install security updates
-RUN apk --no-cache add dumb-init
-
 # Create app directory with proper permissions
 WORKDIR /app
-RUN chown node:node /app
-
-# Switch to node user early
-USER node
 
 # Copy package files and install dependencies
-COPY --chown=node:node package*.json ./
-RUN npm install --only=production && npm cache clean --force
+COPY package*.json ./
+RUN npm install
 
 # Copy entrypoint script and make executable
-COPY --chown=node:node entrypoint.sh ./
+COPY entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 
 # Copy source code
-COPY --chown=node:node src/ ./src/
+COPY src/ ./src/
 
-EXPOSE 3001
+EXPOSE 5001
 
 CMD ["./entrypoint.sh"]
