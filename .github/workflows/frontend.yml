@@ -3,7 +3,7 @@ name: Frontend CI/CD
 on:
   push:
     branches:
-      - dev
+      - main
   workflow_dispatch:
   
 env:
